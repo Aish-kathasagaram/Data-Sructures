@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 3
+
+
+int top=-1;
+int array[MAX];
+
+
+int pushit(int st_array[] ,int value)
+{
+    if(top==MAX-1)
+    {
+        printf("\nSTACK OVERFLOW\n");
+    }
+    else
+    {
+        st_array[++top]=value;
+    }
+    return 0;
+}
+
+int popit(int st_array[])
+{
+    int value;
+    if(top==-1)
+    {
+        printf("\nSTACK UNDERFLOW\n");
+    }
+    else
+    {
+        value=st_array[top];
+        top= top-1;
+    }
+    return value;
+}
+void displayit(int st_array[])
+{
+    if(top==-1)
+    {
+        printf("\nSTACK IS EMPTY!\n");
+    }
+    else
+    {
+        for(int i=top;i>=0;i--)
+          {
+            printf("\n%d",st_array[i]);
+          }
+    }
+
+}
+
+int main()
+{
+    while(1)
+    {
+        int choice ;
+        int n, val;
+        printf("\nMAIN MENU\n 1. Push \n 2. Pop \n 3. Display \n 4. Exit \nEnter your choice: ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1: printf("\nEnter value to add on top: ");
+                scanf("%d",&n);
+                pushit(array ,n);
+                break;
+
+        case 2: val=popit(array);
+                if(top != -1)
+                {
+                    printf("The deleted element is %d",val);
+                }
+                break;
+
+        case 3: displayit(array);
+                break;
+
+        case 4: exit(1);
+        }
+    }
+
+
+}
