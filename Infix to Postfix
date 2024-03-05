@@ -1,0 +1,105 @@
+//precedence
+//pop
+//push
+//main
+//peek
+//isfull
+//isempty
+//infix to postfix
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 50
+
+int top = -1;
+char stack[MAX],infix[MAX],postfix[MAX];
+
+void push(char ch){
+    stack[++top]=ch;
+}
+
+char pop(){
+    char s = stack[top--];
+    return s;
+}
+
+char peek(){
+    return(stack[top]);
+}
+
+int isEmpty(){
+    if(top==-1){
+        return 1; //empty returns 1
+    }
+    else{
+        return 0; //not empty returns 0
+    }
+}
+
+int precedence(char ch){
+    if(ch == '^'){
+        return 3;
+    }
+    else if(ch == '*' || ch == '/' || ch == '%'){
+        return 2;
+    }
+    else if(ch == '+' || ch == '-'){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+void convert(char inf[]){
+    int i,j=0;
+    for(i=0;i<strlen(inf);i++){
+        if(inf[i] == '('){
+            push(inf[i]);
+        }
+        else if(isalnum(inf[i])){
+            postfix[j++] = inf[i];
+        }
+        else if (inf[i] == ')') {
+            while (isEmpty() != 1 && peek() != '(') {
+                postfix[j++] = pop();
+            }
+            if (isEmpty() != 1 && peek() == '(') {
+                char del = pop(); // Pop the opening parenthesis
+            }
+        }
+        // else{
+        //     if(precedence(inf[i]) <= precedence(peek())){
+        //         postfix[j++] = pop();
+        //     }
+        //     else{
+        //         push(inf[i]);
+        //     }
+        // }
+        else {
+            while(precedence(inf[i]) < precedence(peek()) && isEmpty() != 1 && peek() != '(') {
+                postfix[j++] = pop();
+            }
+            push(inf[i]);
+        }
+    }
+    while(top >= 0){
+        postfix[j++] = pop();
+    } 
+    postfix[j] = '\0';
+    int k=0;
+    while(postfix[k] != '\0'){
+        printf("%c",postfix[k]);
+        k++;
+    }
+    printf("\n");
+}
+
+int main(){
+    printf("Enter the infix expression please:\n");
+    scanf("%s",infix);
+    convert(infix);
+    return 0;
+}
