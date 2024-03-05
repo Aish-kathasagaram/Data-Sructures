@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 3
+
+typedef struct stacks
+{
+    int top  ;
+    int array[MAX] ;
+} st ; st a;
+
+int pushit(int st_array[] ,int value)
+{
+    if(a.top==MAX-1)
+    {
+        printf("\nSTACK OVERFLOW");
+    }
+    else
+    {
+        st_array[++a.top]=value;
+    }
+    return 0;
+}
+
+int popit(int st_array[])
+{
+    int value;
+    if(a.top==-1)
+    {
+        printf("\nSTACK UNDERFLOW");
+    }
+    else
+    {
+        value=st_array[a.top];
+        a.top=a.top-1;
+    }
+    return value;
+}
+void displayit(int st_array[])
+{
+    if(a.top==-1)
+    {
+        printf("\nSTACK IS EMPTY!");
+    }
+    else
+    {
+        for(int i=a.top;i>=0;i--)
+          {
+            printf("\n%d",st_array[i]);
+          }
+    }
+
+}
+
+int main()
+{
+    a.top = -1;
+    while(1)
+    {
+        int choice ;
+        int n, val;
+        printf("\nMAIN MENU\n 1. Push \n 2. Pop \n 3. Display \n 4. Exit \nEnter your choice: ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1: printf("\nEnter value to add on top: ");
+                scanf("%d",&n);
+                pushit(a.array ,n);
+                break;
+
+        case 2: val=popit(a.array);
+                if(a.top != -1)
+                {
+                    printf("The deleted element is %d",val);
+                }
+                break;
+
+        case 3: displayit(a.array);
+                break;
+
+        case 4: exit(1);
+        }
+    }
+
+
+}
