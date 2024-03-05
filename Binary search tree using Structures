@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct bst{
+    int data;
+    struct bst *left,*right;
+}bst;
+
+bst *root = NULL;
+bst *createnode(int val){
+    bst *nn = (bst *) malloc(sizeof(bst));
+    nn->data = val;
+    nn->left = nn->right = NULL;
+    return nn;
+}
+
+bst *insert(bst *node,int value){
+    if(node == NULL){
+        node  = createnode(value);
+    }
+    else if(value<node->data){
+        node->left = insert(node->left,value);
+    }
+    else if(value>=node->data){
+        node->right = insert(node->right,value);
+    }
+    return node;
+}
+
+void inorder(bst *node){
+    if(node != NULL){
+        inorder(node->left);
+        printf("%d\t",node->data);
+        inorder(node->right);
+    }
+}
+
+void postorder(bst *node){
+    if(node != NULL){
+        
+        postorder(node->left);
+        postorder(node->right);
+        printf("%d\t",node->data);
+    }
+}
+
+void preorder(bst *node){
+    if(node != NULL){
+        printf("%d\t",node->data);
+        
+        preorder(node->left);
+        preorder(node->right);
+    }
+}
+
+void findSuc(bst *node){
+    bst *temp = node->right;
+    while(temp->left != NULL){
+        temp = temp->left;
+    }
+    printf("%d\t",temp->data);
+}
+
+void findPre(bst *node){
+    bst *temp = node->left;
+    while(temp->right != NULL){
+        temp = temp->right;
+    }
+    printf("%d",temp->data);
+}
+
+int main(){
+    int val,op;
+    while(op != 6){
+        printf("\n1.insert\n2. inorder\n3.postorder\n4. preorder\n5. sucpre\n6. exit");
+        scanf("%d",&op);
+        switch(op){
+            case 1: while(1){printf("Enter data: ");scanf("%d",&val);if(val == -1){break;}root = insert(root,val);};break;
+            case 2: inorder(root);break;
+            case 3: postorder(root);break;
+            case 4: preorder(root);break;
+            case 5: findPre(root);findSuc(root);break;
+            case 6: exit(1);
+        }
+    }
+}
