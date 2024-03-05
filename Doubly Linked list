@@ -1,0 +1,177 @@
+#include <stdio.h>
+#include <stdlib.h>
+//create, insert back at pos, delete at val,display
+typedef struct node{
+    struct node *prev;
+    int data;
+    struct node *next;
+}LL;
+
+LL *head = NULL;
+
+LL *createnode(){
+    LL *newnode = (LL *) malloc(sizeof(LL));
+
+    if(newnode == NULL){
+        newnode = NULL;
+        printf("Not allocated");
+    }
+    else{
+        int num;
+        printf("Enter data: ");
+        scanf("%d",&num);
+
+        newnode->data = num;
+        newnode->prev = NULL;
+        newnode->next = NULL;
+    }
+    return newnode;
+}
+
+void createlist(){
+    int n,num;
+    printf("Enter n:");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        LL *newnode = (LL *) malloc(sizeof(LL));
+
+        if(newnode == NULL){
+            printf("Not allocated");
+        }
+        else{
+            int num;
+            printf("Enter data: ");
+            scanf("%d",&num);
+
+            newnode->data = num;
+            newnode->prev = NULL;
+            newnode->next = NULL;
+
+            if(head == NULL){
+                head = newnode;
+            }
+            else{
+                LL *temp =head;
+                while(temp->next != NULL){
+                    temp = temp->next;
+                }
+                temp->next = newnode;
+                newnode->prev = temp;
+            }
+        }
+    }
+}
+
+// void insertleft(){
+//     int x;
+//     LL *nn = createnode();
+//     printf("ENter pos before ehich node to be added: ");
+//     scanf("%d",&x);
+//     LL *temp = head;
+//     for(int i = 0;i<x-1;i++){
+//         temp = temp->next;
+//     }
+//     temp->next->prev = nn;
+//     nn->next = temp;
+//     temp->next = nn;
+//     nn->prev = temp;
+// }
+
+void insertleft() {
+    int x;
+    LL *nn = createnode();
+    if (nn == NULL) {
+        printf("Memory allocation failed.\n");
+        return;
+    }
+    
+    if (head == NULL) {
+        head = nn;
+        return;
+    }
+
+    printf("Enter position before which node to be added: ");
+    scanf("%d", &x);
+
+    LL *temp = head;
+    for (int i = 0; i < x - 2 && temp->next != NULL; i++) {
+        temp = temp->next;
+    }
+
+    if (x == 1) {
+        nn->next = head;
+        head->prev = nn;
+        head = nn;
+    } else if (temp->next != NULL) {
+        nn->next = temp->next;
+        temp->next->prev = nn;
+        temp->next = nn;
+        nn->prev = temp;
+    } else {
+        temp->next = nn;
+        nn->prev = temp;
+    }
+}
+
+void deletepos(){
+    printf("Enter value of node to be deleted: ");
+    int val;
+    scanf("%d",&val);
+
+    if(head == NULL){
+        printf("Empty list");
+    }
+    else{
+        LL *temp = head;
+        while(temp->data != val){
+            temp = temp->next;
+        }
+        printf("%d is deleted",temp->data);
+        if(temp == head){
+            head = head->next;
+            head->prev = NULL;
+        }
+        else if(temp->next == NULL){
+            temp->prev->next = NULL;
+        }
+        else{
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+        }
+        free(temp);temp = NULL;
+    }
+}
+
+void display()
+{
+    if(head == NULL){
+        printf("Empty list");
+    }
+    else{
+        LL *temp =head;
+        while(temp!=NULL)
+        {
+            printf("%d -> ",temp->data);
+            temp=temp->next;
+        }
+    }
+}
+
+int main(){
+    int op;
+    do{
+        printf("\n**MAIN MENU**\n1. createlist\n2. insertbackatpos\n3. deletenodeatval\n4. display\n5. Exit\nEnter choice: ");
+        scanf("%d",&op);
+
+        switch(op){
+            case 1: createlist();break;
+            case 2: insertleft();break;
+            case 3: deletepos();break;
+            case 4: display();break;
+            case 5: exit(1);
+            default: printf("Invalid input");
+        }
+    }while(op != -1);
+
+    return 0;
+}
