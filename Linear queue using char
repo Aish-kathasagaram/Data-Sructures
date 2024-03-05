@@ -1,0 +1,88 @@
+//linear queue using char array
+
+#include <stdio.h>
+
+
+# define MAX 5
+int front = -1, rear = -1;
+char queue[MAX];
+
+int IsFull(){
+    if(rear==MAX-1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+int IsEmpty(){
+    if(front==-1 && rear==-1){
+        return 1;
+    }
+    else return 0;
+}
+
+void enqueue(char c){
+    if(IsFull()){
+        printf("Its full");
+    }
+    else{
+        if(IsEmpty()){
+            front = 0;rear = 0;
+            queue[rear]=c;
+        }
+        else{
+            rear = rear+1;
+            queue[rear] = c;
+        }
+    }
+}
+
+char dequeue(){
+    
+    if(IsEmpty()){
+        printf("Empty asf");
+        return '\0';
+
+    }
+    else{
+        char m = queue[front];
+        front++;
+        return m;
+    }
+    
+}
+void display(){
+    int i;
+    for(i=front;i<=rear;i++){
+        printf("%c\n",queue[i]);
+    }
+}
+
+int main(){
+    int n;
+    
+while(1){ 
+            printf("\n1. enueue\n2. Dequeue\n3. display \n4.Enix\nenter: ");
+            scanf("%d",&n);
+            switch(n){
+            case 1:{
+                char x;
+                printf("insert elemet: ");
+                scanf(" %c",&x);
+                enqueue(x);break;
+            }
+            case 2:{
+                char d;
+                d = dequeue();
+                printf("%c is deleted",d);break;
+            }
+            case 3:{
+                display();
+                break;
+            }
+            default: printf("Invalid");
+        }
+        }
+}
