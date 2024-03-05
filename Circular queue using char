@@ -1,0 +1,88 @@
+//circular queue using char array
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 4
+
+int front=-1, rear = -1;
+char que[MAX];
+
+int IsFull(){
+    return (front==(rear+1)%MAX || front==0 && rear == MAX-1);
+}
+
+int IsEmpty(){
+    return(front==-1 && rear==-1);
+}
+
+void enqueue(char c){
+    if(IsFull()){
+        printf("Is Full");
+    }
+    else{
+        if(IsEmpty()){
+            front=0;
+        }
+        rear = (rear+1)%MAX;
+        que[rear]=c;
+    }
+}
+
+void dequeue(){
+    if(IsEmpty()){
+        printf("Empty");
+    }
+    else{
+        char d = que[front];
+        if(front==rear){
+            front=rear=-1;
+        }
+        else{
+            front=(front+1)%MAX;
+        }
+        printf("Deleted element is %c",d);
+    }
+}
+
+// void display(){
+//     for(int i=0;i<MAX;i++){
+//         printf("%c\n",que[i]);
+//     }
+// }
+void display() {
+    if (IsEmpty()) {
+        printf("Empty queue\n");
+    } else {
+        int i = front;
+        do {
+            printf("%c\n", que[i]);
+            i = (i + 1) % MAX;
+        } while (i != (rear + 1) % MAX);
+    }
+}
+
+int main(){
+    int n;
+    while(1){
+        printf("\n1.Enqueue\n2.Dequeue\n3.Display\n4.Exit\nEnter choice:");
+        scanf("%d",&n);
+        switch(n){
+            case 1:{
+                char x;
+                printf("Enter element: ");
+                scanf(" %c",&x);
+                enqueue(x);break;
+            }
+            case 2:{
+                dequeue();
+                break;
+            }
+            case 3:{
+                display();break;
+            }
+            case 4: exit(1);break;
+            default: printf("Invalid entry");
+        }
+    }
+}
