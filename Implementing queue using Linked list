@@ -1,0 +1,97 @@
+//implementing queue using LL
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+struct node *createnode(){
+    struct node *newnode = (struct node *) malloc(sizeof(struct node));
+    if(newnode == NULL){
+        printf("Memory not allocated");
+    }
+    else{
+        int num;
+        printf("Enter data");
+        scanf("%d",&num);
+
+        newnode->data = num;
+        newnode->next = NULL;
+    }
+    return newnode;
+}
+
+void push(){
+    struct node *newnode = createnode();
+    if(head == NULL){
+        head = newnode;
+    }
+    else{
+        newnode->next = head;
+        head = newnode;
+    }
+}
+
+void enqueue(){
+    struct node *newnode = createnode();
+    if(head == NULL){
+        head = newnode;
+    }
+    else{
+        struct node *temp = head;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next = newnode;
+    }
+}
+
+void dequeue(){
+    if(head == NULL){
+        printf("Queue is empty");
+    }
+    else{
+        struct node *temp = head;
+        head = head->next;
+        printf("%d is deleted",temp->data);
+        free(temp);
+        temp = NULL;
+    }
+}
+
+void display(){
+    if(head == NULL){
+        printf("Queue is empty");
+    }
+    else{
+        struct node *temp = head;
+        while(temp!= NULL){
+            printf("%d | %p -> ",temp->data,temp);
+            temp = temp->next;
+        }
+    }
+}
+
+int main(){
+    int op;
+    do{
+        printf("\n**MAIN MENU**\n1. Enqueue\n2. Dequeue\n3. push\n 4. pop\n5. display\n4. Exit\nEnter choice: ");
+        scanf("%d",&op);
+
+        switch(op){
+            case 1: enqueue();break;
+            case 2: dequeue();break;
+            case 3: push();break;
+            case 4: dequeue();break;
+            case 5: display();break;
+            case 6: exit(1);break;
+            default: printf("Invalid entry");
+        }
+    }while(op != -1);
+    return 0;
+}
