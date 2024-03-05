@@ -1,0 +1,207 @@
+//circular linked list
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL,*tail  = NULL;
+int count = 0;
+
+struct node *createnode(){
+    int num;
+    struct node *newnode = (struct node *) malloc(sizeof(struct node));
+
+    printf("Enter data: ");
+    scanf("%d",&num);
+
+    newnode->data = num;
+    newnode->next = NULL;
+
+    return newnode;
+}
+
+void insertfront(){
+    struct node *newnode = createnode();
+    if(head == NULL){
+        head = newnode;
+        tail = head;
+        head->next = head;
+    }
+    else
+    {
+        newnode->next = head;
+        head = newnode;
+        tail->next = head;
+    }
+    count++;
+}
+
+void insertback(){
+    struct node *newnode = createnode();
+    if(head == NULL){
+        head = newnode;
+        tail = head;
+        head->next = head;
+    }
+    else
+    {
+        struct node *temp = head;
+        while(temp->next != head){
+            temp = temp->next;
+        }
+        temp->next = newnode;
+        tail = newnode;
+        tail->next = head;
+    }
+    count++;
+}
+
+void insertpos(){
+    int pos;
+    struct node *newnode = createnode();
+
+    printf("Enter position at which node to be inserted: ");
+    scanf("%d",&pos);
+
+    if(head == NULL){
+        head = newnode;
+        tail = head;
+        head->next = head;
+    }
+    else
+    {
+        if(pos==1){
+            newnode->next = head;
+            head = newnode;
+            tail->next = newnode;
+        }
+        else{
+            struct node *temp = head;
+            for(int i=1;i<pos-1;i++){
+                temp = temp->next;
+            }
+            newnode->next = temp->next;
+            temp->next = newnode;
+            if(temp == tail){
+                tail = temp->next;
+            }
+        }
+    }
+    count++;
+}
+
+void deletefront(){
+    if(head == NULL){
+        printf("Empty list");
+    }
+    else{
+        struct node *temp = head;
+        printf("%d is deleted",head->data);
+        head = temp->next;
+        tail->next = head;
+        if(tail == head){
+            tail = NULL;
+            head = NULL;
+        }
+        free(temp);
+        temp = NULL;
+        count--;
+    }
+}
+
+void deleteback(){
+    if(head == NULL){
+        printf("Empty list");
+    }
+    else{
+        struct node *prev = head,*temp = head->next;
+        while(temp->next!=head){
+            prev = temp;
+            temp = temp->next;
+        }
+        tail = prev;
+        tail->next = head;
+        if(head == tail){
+            head = NULL;
+            tail = NULL;
+        }
+        printf("%d is deleted",temp->data);
+        free(temp);
+        temp = NULL;
+        count--;
+    }
+}
+
+
+void deletepos(){
+    int pos;
+
+    printf("\nEnter position at which node to be deleted: ");
+    scanf("%d",&pos);
+
+    if(head == NULL){
+        printf("Empty list");
+    }
+    else{
+        if(head->next == head && pos == 1){
+            printf("%d is deleted",head->data);
+            free(head);
+            head = NULL;
+            tail = NULL;
+        }
+        else{
+            struct node *temp = head,*prev = NULL;
+            for(int i=2;i<=pos;i++){
+                prev = temp;
+                temp = temp->next;
+            }
+            prev->next = temp->next;
+            if(temp == tail){
+                tail = prev;
+            }
+            printf("%d is deleted",temp->data);
+            free(temp);
+            temp = NULL;
+        }
+        count--;
+    }
+}
+
+void display(){
+    if(count == 0){
+        printf("Empty list");
+    }
+    else{
+        struct node *temp = head;
+        for(int i=1;i<=count;i++){
+            printf("%d\t",temp->data);
+            temp = temp->next;
+        }
+    }
+}
+
+int main(){
+    int op;
+    while(op!=-1){
+        printf("\n\n**MAIN MENU**\n1. Create node\n2. Insert front\n3. Insert back\n4. Insert at a pos\n5. Delete front\n6. Delete back\n7. Delete at pos\n8. display\n9. Exit\nEnter choice: ");
+        scanf("%d",&op);
+
+        switch(op){
+            case 1: createnode();printf("LL created");break;
+            case 2: insertfront();break;
+            case 3: insertback();break;
+            case 4: insertpos();break;
+            case 5: deletefront();break;
+            case 6: deleteback();break;
+            case 7: deletepos();break;
+            case 8: display();break;
+            case 9: exit(1);
+            default: printf("Invalid entry");
+        }
+    }
+    return 0;
+}
