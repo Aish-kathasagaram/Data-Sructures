@@ -1,0 +1,167 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+struct node * createnode(struct node *head){
+    int num;
+    struct node *newnode,*temp;
+
+    printf("\nEnter -1 to end");
+    printf("\nEnter data: ");
+    scanf("%d",&num);
+
+    while(num!=-1){
+        newnode = (struct node *) malloc(sizeof(struct node));
+        newnode->data = num;
+        if(head == NULL){
+            head = newnode;
+            newnode->next = NULL;
+        }
+        else{
+            temp=head;
+            while(temp->next != NULL){
+                temp = temp->next;
+            }
+            temp->next = newnode;
+            newnode->next = NULL;
+        }
+        printf("Enter data: ");
+        scanf("%d",&num);
+    }
+    return head;
+
+}
+
+struct node * insertbeg(struct node * head){
+    int num;
+    printf("Enter data to be inserted: ");
+    scanf("%d",&num);
+
+    struct node *temp,*newnode;
+    newnode = (struct node *) malloc(sizeof(struct node));
+    newnode->data = num;
+
+    if(head == NULL){
+        head = newnode;
+        newnode->next = NULL;
+    }
+    else{
+        temp = head;
+        head = newnode;
+        newnode->next = temp;
+    }
+    return head;
+}
+
+struct node * insertback(struct node * head){
+    int num;
+    printf("\nEnter element to be inserted in the back: ");
+    scanf("%d",&num);
+
+    struct node *newnode,*temp;
+    newnode = (struct node *) malloc(sizeof(struct node));
+    newnode->data = num;
+
+    if(head == NULL){
+        head = newnode;
+        newnode->next = NULL;
+    }
+    else{
+        temp = head;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next = newnode;
+        newnode->next = NULL;
+    }
+    return head;
+}
+
+struct node *deletebeg(struct node * head){
+    struct node *temp;
+    if(head == NULL){
+        printf("\nEmpty list.");
+    }
+    else{
+        if(head->next == NULL){
+            printf("\n%d is deleted.",head->data);
+            free(head);
+            head = NULL;
+        }
+        else{
+            temp = head;
+            head = temp->next;
+            printf("%d is deleted",temp->data);
+            free(temp);
+            temp = NULL;
+        }
+    }
+    return head;
+}
+
+struct node * deletelast(struct node * head){
+    struct node *temp,*prev;
+    if(head == NULL){
+        printf("\nEmpty list.");
+    }
+    else{
+        if(head->next == NULL){
+            printf("\n%d is deleted.",head->data);
+            free(head);
+            head = NULL;
+        }
+        else{
+            temp = head;
+            while(temp->next != NULL){
+                prev = temp;
+                temp = temp->next;
+            }
+            prev->next = NULL;
+            printf("%d is deleted",temp->data);
+            free(temp);
+            temp = NULL;
+        }
+    }
+    return head;
+}
+
+struct node * display(struct node * head){
+    struct node *temp;
+    if(head == NULL){
+            printf("\nlist empty");
+    }
+    else{
+        temp = head;
+        do{
+            printf("\t%d",temp->data);
+            temp = temp->next;
+        }while(temp->next != NULL);
+        printf("\t%d",temp->data);
+    }
+    return head;
+}
+
+int main(){
+    int op;
+    while(op!=-1){
+        printf("\n*MAIN MENU*\n1. Create\n2. Inbeg\n3. Inlast\n4. deletebeg\n5. deletelast\n6. display\n7. Exit\nEnter choice: ");
+        scanf("%d",&op);
+        switch(op){
+            case 1: head = createnode(head);printf("Node created");break;
+            case 2: head = insertbeg(head);break;
+            case 3: head = insertback(head);break;
+            case 4: head = deletebeg(head);break;
+            case 5: head = deletelast(head);break;
+            case 6: head = display(head);break;
+            case 7: exit(1);
+            default: printf("no");
+        }
+    }
+    return 0;
+}
