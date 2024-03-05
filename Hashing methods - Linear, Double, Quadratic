@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define n 10
+#define empty -1
+int ht1[n],ht2[n],ht3[n];
+void insert1(int ht1[]){
+    int key,index;
+    printf("Enter data: ");
+    scanf("%d",&key);
+    
+    for(int i =0;i<n;i++){
+        index = (key+i)%n;
+        printf("Probing index %d\n", index);
+        if(ht1[index] == empty){
+            ht1[index] = key;break;
+        }
+    }
+    printf("Can't insert element");
+}
+
+void insert2(int ht2[]){
+    int key, index;
+    printf("Enter data: ");
+    scanf("%d",&key);
+    
+    for(int i = 0; i < n; i++){
+        index = (key + i + i * i) % n;
+        printf("Probing index %d\n", index);
+        if(ht2[index] == empty){
+            ht2[index] = key;
+            return;
+        }
+    }
+    printf("Can't insert element\n");
+}
+
+void insert3(int ht3[]){
+    int key, index, hkey, h1key;
+    printf("Enter data: ");
+    scanf("%d",&key);
+
+    hkey = key % n;
+    h1key = 1 + (key % (n - 2));
+    for(int i = 0; i < n; i++){
+        index = (hkey + i * h1key) % n;
+        printf("Probing index %d\n", index);
+        if(ht3[index] == empty){
+            ht3[index] = key;
+            return;
+        }
+    }
+    printf("Can't insert element\n");
+}
+
+
+
+void display(int ht[]){
+    for(int i = 0;i<n;i++){
+        printf("HT[%d] = %d\n",i,ht[i]);
+    }
+}
+
+void setempty(int ht[]){
+    for(int i = 0;i<n;i++){
+        ht[i] = empty;
+    }
+}
+
+int main(){
+    int op;
+    setempty(ht1);
+    setempty(ht2);
+    setempty(ht3);
+    printf("Enter -1 to end");
+    do{
+        printf("\nMAIN MENU\n1. Linear insert\n2. Quadratic insert\n3. Double insert\n4. Linear display\n5. Quadratic display\n6. Double display\n7. Exit\nEnter Choice: ");
+        scanf("%d",&op);
+
+        switch(op){
+            case 1: insert1(ht1);break;
+            case 2: insert2(ht2);break;
+            case 3: insert3(ht3);break;
+            case 4: display(ht1);break;
+            case 5: display(ht2);break;
+            case 6: display(ht3);break;
+            case 7: exit(1);
+            default: printf("Invalid Entry");
+        }
+    }while(op != -1);
+}
