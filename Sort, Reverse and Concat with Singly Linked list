@@ -1,0 +1,157 @@
+//single linked list - sort,reverse, concatenation
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node *next;
+}LL;
+LL *head1 = NULL,*head2 = NULL;
+
+void createLL1(){
+    int n,num;
+    printf("Enter n:");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        LL *newnode = (LL *) malloc(sizeof(LL));
+
+        if(newnode == NULL){
+            printf("Not allocated");
+        }
+        else{
+            int num;
+            printf("Enter data: ");
+            scanf("%d",&num);
+
+            newnode->data = num;
+            newnode->next = NULL;
+
+            if(head1 == NULL){
+                head1 = newnode;
+            }
+            else{
+                LL *temp =head1;
+                while(temp->next != NULL){
+                    temp = temp->next;
+                }
+                temp->next = newnode;
+            }
+        }
+    }
+}
+
+void createLL2(){
+    int n,num;
+    printf("Enter n:");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        LL *newnode = (LL *) malloc(sizeof(LL));
+
+        if(newnode == NULL){
+            printf("Not allocated");
+        }
+        else{
+            int num;
+            printf("Enter data: ");
+            scanf("%d",&num);
+
+            newnode->data = num;
+            newnode->next = NULL;
+
+            if(head2 == NULL){
+                head2 = newnode;
+            }
+            else{
+                LL *temp =head2;
+                while(temp->next != NULL){
+                    temp = temp->next;
+                }
+                temp->next = newnode;
+            }
+        }
+    }
+}
+
+void reverse(LL **head){
+    LL *tprev = NULL,*tcur = *head, *tnext = NULL;
+    if(*head == NULL){
+        printf("Empty list");
+    }
+    else{
+        while(tcur!=NULL){
+            tnext = tcur->next;
+            tcur->next = tprev;
+            tprev = tcur;
+            tcur = tnext;
+        }
+        *head = tprev;
+    }
+}
+
+void sort(LL *head){
+    LL *temp = head;LL *tnext = head->next;int x;
+    if(head == NULL){
+        printf("EMpty list");
+    }
+    else{
+        for(temp = head;temp!=NULL;temp = temp->next){
+            for(tnext = temp->next;tnext!=NULL;tnext = tnext->next){
+                if(temp->data > tnext->data){
+                    x = temp->data;
+                    temp->data = tnext->data;
+                    tnext->data = x;
+                }
+            }
+        }
+    }
+}
+
+void concat(LL *h1,LL *h2){
+    if(h1 == NULL && h2 == NULL){
+        printf("Cant concat. Empty lists");
+    }
+    else{
+        LL *temp = h1;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next = h2;
+    }
+}
+
+void display(LL *head){
+    if(head == NULL){
+        printf("EMpty");
+    }
+    else{
+        LL *temp = head;
+        while(temp != NULL){
+            printf("%d ->",temp->data);
+            temp = temp->next;
+        }
+    }
+}
+
+int main(){
+    while(1){
+        printf("\n1. create1\n2. create2\n3. sort1\n4. reverse1\n5. sort2\n6. reverse2\n7. concat1\n8. concat2\n9. display1\n10. display2\n11. exit\nEnterchoice: ");
+        int op;
+        scanf("%d",&op);
+        switch (op)
+        {
+        case 1: createLL1();break;
+        case 2: createLL2();break;
+        case 3: sort(head1);break;
+        case 4: reverse(&head1);break;
+        case 5: sort(head2);break;
+        case 6: reverse(&head2);break;
+        case 7: concat(head1,head2);break;
+        case 8: concat(head2,head1);
+        case 9: display(head1);break;
+        case 10: display(head2);break;
+        case 11: exit(1);
+        default:break;
+        }
+    }
+}
